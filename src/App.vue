@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button v-preventReClick="3000" @click="queryList">查询</button>
+    <button @click="postBtn">POST</button>
+    <button @click="postBtn400">POST400</button>
+    <button @click="notFoundBtn">notFoundBtn</button>
+    <div>{{ tableData }}</div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import api from './api.js'
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: 'App',
+  data() {
+    return {
+      tableData: []
+    }
+  },
+  methods: {
+    queryList() {
+      api.queryList({ test: 1233 }).then(res => {
+        this.tableData = res
+      })
+    },
+    postBtn() {
+      api.postTest({ posttt: 2222 })
+    },
+    postBtn400() {
+      api.postTest400({ posttt: 400 })
+    },
+    notFoundBtn() {
+      api.notFoundApi({ aya: 666 }).then(res => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
